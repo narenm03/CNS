@@ -28,7 +28,68 @@ becomes C. To change a message back, each letter is replaced by the one three be
 
 
 PROGRAM :-
+```
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+int main() {
+    char plain[11], cipher[11];  // Increased size to accommodate null terminator
+    int key, i, length;
+
+    printf("\n Enter the plain text (max 10 chars): ");
+    scanf("%10s", plain);  // Limits input to 10 characters
+
+    printf("\n Enter the key value: ");
+    scanf("%d", &key);
+
+    length = strlen(plain);
+
+    printf("\n \n \t PLAIN TEXT: %s", plain);
+    printf("\n \n \t ENCRYPTED TEXT: ");
+
+    for (i = 0; i < length; i++) {
+        cipher[i] = plain[i] + key;
+
+        // Handle wrap-around for uppercase letters
+        if (isupper(plain[i]) && (cipher[i] > 'Z')) {
+            cipher[i] -= 26;
+        }
+        // Handle wrap-around for lowercase letters
+        if (islower(plain[i]) && (cipher[i] > 'z')) {
+            cipher[i] -= 26;
+        }
+
+        printf("%c", cipher[i]);
+    }
+    cipher[length] = '\0';  // Null-terminate cipher text
+
+    printf("\n \n \t AFTER DECRYPTION: ");
+    for (i = 0; i < length; i++) {
+        plain[i] = cipher[i] - key;
+
+        // Handle wrap-around for uppercase letters
+        if (isupper(cipher[i]) && (plain[i] < 'A')) {
+            plain[i] += 26;
+        }
+        // Handle wrap-around for lowercase letters
+        if (islower(cipher[i]) && (plain[i] < 'a')) {
+            plain[i] += 26;
+        }
+
+        printf("%c", plain[i]);
+    }
+    plain[length] = '\0';  // Null-terminate plain text
+
+    printf("\n");
+
+    return 0;
+}
+```
 
 
 
 OUTPUT :-
+
+![image](https://github.com/user-attachments/assets/bc7bce65-d5a0-435c-a49a-d7c9fcb49c65)
+
